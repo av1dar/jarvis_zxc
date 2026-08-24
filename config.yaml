@@ -1,0 +1,49 @@
+assistant:
+  wakeword: "джарвис"
+  command_timeout: 15
+  confidence_threshold: 82
+  # Мова, якою асистент ГОВОРИТЬ (див. phrases.yaml): uk / ru
+  voice_language: "uk"
+  # Мови, які асистент одночасно РОЗПІЗНАЄ (можна одну або обидві)
+  stt_languages: ["uk", "ru"]
+
+audio:
+  microphone_index: null
+  microphone_sensitivity: 2.5
+  silence_timeout: 1.2
+
+porcupine:
+  access_key: "AQ.Ab8RN6KR6oQ6mIZelpWOVopKbiDjbgnaxFIyyEiwLT_6JsknsA"
+
+# Шляхи до Vosk-моделей для кожної мови розпізнавання.
+# Українську модель треба довантажити самостійно (див. README_UPDATES.md)
+stt_models:
+  uk: "models/small/vosk-uk"
+  ru: "models/small/vosk-ru"
+
+ai:
+  enabled: true
+  provider: "gemini"
+  api_key: ""
+  model: "gemini-3-flash-preview"
+
+# Агентний режим: дозволити ШІ самостійно виконувати дії
+# (писати в Telegram, шукати на YouTube тощо), а не лише говорити.
+agent:
+  enabled: true
+
+# --- Telegram (потрібен лише для команд "напиши в групу ...") ---
+# api_id / api_hash отримуються безкоштовно на https://my.telegram.org
+telegram:
+  api_id: null
+  api_hash: "AQ.Ab8RN6KR6oQ6mIZelpWOVopKbiDjbgnaxFIyyEiwLT_6JsknsA"
+  session_name: "jarvis"
+
+# --- YouTube (опціонально, для точнішого пошуку) ---
+# Без ключа асистент просто відкриє сторінку пошуку YouTube.
+# Ключ можна отримати безкоштовно в Google Cloud Console -> YouTube Data API v3
+youtube:
+  api_key: "AQ.Ab8RN6KR6oQ6mIZelpWOVopKbiDjbgnaxFIyyEiwLT_6JsknsA"
+
+music:
+  path: "D:/Songs"
