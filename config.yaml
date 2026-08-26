@@ -1,0 +1,73 @@
+assistant:
+  wakeword: "джарвис"
+  # 3с занадто мало: одне звернення до listen() всередині циклу може
+  # тривати до ~9с (силою тиші 3с + запас), тож сесія обривалась ще
+  # ДО того, як ви встигали сказати команду після будильника.
+  # 8с — дає реальний час відповісти, не обриваючи розмову одразу.
+  command_timeout: 8
+  confidence_threshold: 60
+  # Мова, якою асистент ГОВОРИТЬ (див. phrases.yaml): uk / ru
+  # ru — бо української Vosk-моделі у проєкті немає (models/small/vosk-uk
+  # відсутня), а всі команди в commands.yaml теж написані російською.
+  voice_language: "ru"
+  # Мови, які асистент одночасно РОЗПІЗНАЄ.
+  # Тільки ru — інакше STT намагається вантажити vosk-uk, якої немає,
+  # і мовчки падає назад на ru. Якщо колись довантажиш українську модель
+  # (models/small/vosk-uk), можна повернути ["uk", "ru"].
+  stt_languages: ["ru"]
+
+audio:
+  microphone_index: null
+  # Множник порогу голосу (див. core/stt.py -> voice_threshold =
+  # noise_floor * microphone_sensitivity). МЕНШЕ число = чутливіше
+  # (реагує на тихий голос), БІЛЬШЕ = менш чутливо (тільки гучний голос).
+  # 2.5 — початкове значення проєкту. Починайте з 1.2-1.5 і підлаштовуйте
+  # під свій мікрофон, дивлячись на "voice threshold multiplier" в логах.
+  microphone_sensitivity: 1.2
+  silence_timeout: 3
+
+porcupine:
+  access_key: ""
+
+# Шляхи до Vosk-моделей для кожної мови розпізнавання.
+# Рекомендовано замінити "small" модель на повну (vosk-model-ru-0.42,
+# https://alphacephei.com/kaldi/models/vosk-model-ru-0.42.zip) — маленька
+# модель регулярно "з'їдає" початок коротких слів (напр. "джарвис" ->
+# "арвис"). Українську модель треба довантажити самостійно (див.
+# README_UPDATES.md).
+stt_models:
+  
+  ru: "models/small/vosk-ru"
+
+ai:
+  enabled:  true
+  provider: "gemini"
+  # Ключ краще НЕ класти сюди (щоб не злити його в git випадково), а в
+  # .env поряд з main.py: GEMINI_API_KEY=твій_ключ
+  # (.env має пріоритет над цим полем — див. core/config.py)
+  api_key: "AQ.Ab8RN6KR6oQ6mIZelpWOVopKbiDjbgnaxFIyyEiwLT_6JsknsA"
+  # "gemini-3-flash-preview" — застаріла preview-модель, її давно
+  # замінили стабільні релізи. gemini-2.5-flash — дешева й стабільна;
+  # якщо хочеш новішу й розумнішу — постав "gemini-3.6-flash".
+  model: "gemini-2.5-flash"
+
+# Агентний режим: дозволити ШІ самостійно виконувати дії
+# (писати в Telegram, шукати на YouTube тощо), а не лише говорити.
+agent:
+  enabled: true
+
+# --- Telegram (потрібен лише для команд "напиши в групу ...") ---
+# api_id / api_hash отримуються безкоштовно на https://my.telegram.org
+telegram:
+  api_id: null
+  api_hash: ""
+  session_name: "джарвис"
+
+# --- YouTube (опціонально, для точнішого пошуку) ---
+# Без ключа асистент просто відкриє сторінку пошуку YouTube.
+# Ключ можна отримати безкоштовно в Google Cloud Console -> YouTube Data API v3
+youtube:
+  api_key: ""
+
+music:
+  path: "D:/Songs"
